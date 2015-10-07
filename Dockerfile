@@ -1,4 +1,0 @@
-FROM node:4.1.2
-
-EXPOSE 9000
-
