@@ -1,23 +1,24 @@
 {
-  "name": "react-webpack-starter",
-  "version": "0.1.1",
-  "description": "React webpack starter template",
+  "name": "flux_node-oracledb",
+  "version": "0.1",
+  "description": "Flux's TodoMVC example augmented by database calls via node-oracledb, generated using krasiminr/react-webpack-starter",
   "main": "lib/index.js",
   "dependencies": {},
   "author": {
-    "name": "Krasimir Tsonev",
-    "email": "info@krasimirtsonev.com",
-    "url": "http://krasimirtsonev.com"
+    "name": "Janis Krasemann",
+    "email": "janis.krasemann@enpit.de",
+    "url": "http://www.enpit.de"
   },
   "license": "MIT",
   "keywords": [
     "react",
-    "carousel",
-    "responsive"
+    "flux",
+    "node",
+    "oracle"
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:krasimir/react-webpack-starter.git"
+    "url": "git@github.com:enpit/flux_node-oracledb.git"
   },
   "scripts": {
     "dev": "WEBPACK_ENV=dev ./node_modules/.bin/webpack --watch --inline",
@@ -34,6 +35,7 @@
     "eslint": "1.4.3",
     "eslint-loader": "1.0.0",
     "eslint-plugin-react": "3.4.1",
+    "flux": "^2.1.1",
     "karma": "0.13.10",
     "karma-chai": "0.1.0",
     "karma-chai-plugins": "0.6.0",
@@ -46,6 +48,8 @@
     "karma-sinon-chai": "1.1.0",
     "karma-sourcemap-loader": "0.3.5",
     "karma-webpack": "1.7.0",
+    "keymirror": "^0.1.1",
+    "object-assign": "^4.0.1",
     "react": "0.13.3",
     "watch": "0.16.0",
     "webpack": "1.12.2",
