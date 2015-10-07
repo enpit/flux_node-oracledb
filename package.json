@@ -1,6 +1,6 @@
 {
   "name": "flux_node-oracledb",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "Flux's TodoMVC example augmented by database calls via node-oracledb, generated using krasiminr/react-webpack-starter",
   "main": "lib/index.js",
   "dependencies": {},
