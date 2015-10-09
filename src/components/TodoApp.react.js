@@ -17,6 +17,7 @@ var Header = require('./Header.react');
 var MainSection = require('./MainSection.react');
 var React = require('react');
 var TodoStore = require('../stores/TodoStore');
+var DatabaseTodoStore = require('../stores/DatabaseTodoStore');
 
 /**
  * Retrieve the current TODO data from the TodoStore
@@ -36,10 +37,12 @@ var TodoApp = React.createClass({
 
   componentDidMount: function() {
     TodoStore.addChangeListener(this._onChange);
+    DatabaseTodoStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
     TodoStore.removeChangeListener(this._onChange);
+    DatabaseTodoStore.removeChangeListener(this._onChange);
   },
 
   /**
