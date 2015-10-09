@@ -7,8 +7,8 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-require("./../css/app.css");
-require("./../css/base.css");
+require("./css/app.css");
+require("./css/base.css");
 
 var React = require('react');
 
