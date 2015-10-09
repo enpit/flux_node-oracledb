@@ -1,26 +1,16 @@
-# React webpack starter template
+# Flux + Node-OracleDB example application
 
-The aim of this repository is to provide a template for developing [React](https://facebook.github.io/react/) based applications using ES6 syntax and [webpack](https://webpack.github.io/) as a module bundler.
+The aim of this repository is to provide a working example of a [React](https://facebook.github.io/react/)/[Flux](https://github.com/facebook/flux) based application that uses an oracle database as storage. The database will be called using the [node-oracledb](https://github.com/oracle/node-oracledb) driver.
 
 ## Features
 
-* Bundles [React](https://facebook.github.io/react/) with `jsx` syntax
-* Compiles ES6 (with [Babel](https://babeljs.io/))
-* Linting (with [ESLint](http://eslint.org/))
-* Build with [webpack](https://webpack.github.io/)
-* Test with [Mocha](http://mochajs.org/), [Chai](http://chaijs.com/) and [Sinon](http://sinonjs.org/)
-* Use [Karma](http://karma-runner.github.io/) to run the tests
-* Develop locally with [webpack-dev-server](http://webpack.github.io/docs/webpack-dev-server.html)
+* Shows the TodoMVC app from [Flux](https://github.com/facebook/flux)
+* Calls a webservice that is implemented using 
+* The webservice communicates with an oracle database using [node-oracledb](https://github.com/oracle/node-oracledb)
+ * Get your Oracle XE database in a docker container [here](https://registry.hub.docker.com/u/alexeiled/docker-oracle-xe-11g/)
+* Was built upon the [react-webpack-starter](https://github.com/krasimir/react-webpack-starter)
+ * Read more about his launcher in his [blogpost](http://krasimirtsonev.com/blog/article/a-modern-react-starter-pack-based-on-webpack)
 
 ## Usage
 
-* Download the files and place them in your project directory
-* Run `npm i` to install the dependencies
-* Run `npm run build` to build the project
-* Run `npm run dev` to build the project, start watching files and run the local server
-* Run `npm test` to run the tests once
-* Run `npm run test:ci` to watch the `src` directory for changes and run the tests
-
-## MISC
-
-* [A modern React starter pack based on webpack](http://krasimirtsonev.com/blog/article/a-modern-react-starter-pack-based-on-webpack)
+This is still a WIP, but you can download, npm install and then npm run to use a local version of the todomvc app (no database functionality yet)
