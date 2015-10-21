@@ -1,7 +1,7 @@
 # Build ...
 node_modules
 npm-debug.log
-public
+dist
 tmp
 lib
 
