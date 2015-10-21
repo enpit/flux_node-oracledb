@@ -2,29 +2,16 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constants/TodoConstants');
 var assign = require('object-assign');
-var http = require('http');
+var request = require('request');
 
 var CHANGE_EVENT = 'change';
+var DEFAULT_PORT = 9999;
+var DEFAULT_HOSTNAME = 'localhost';
+var TODO_PATH = '/todo';
 
-var requestOptions = {
-  hostname: 'localhost',
-  port: 7002,
-  method: 'GET', // will be overwritten for every request
-  path: '/todo/?' // will be overwritten for every request
-};
-
-/**
- * Convenience method for sending a http request
- * @param {string} method the http method that should be used for this request
- * @param {string} path the path that should be appended to the url
- * @param {function} fun the function to pass as a callback to the http.request call
- */
-function sendRequest(method, path, fun) {
-
-  requestOptions.method = method;
-  requestOptions.path = path;
-  http.request(requestOptions, fun).end();
-}
+var todoRequest = request.defaults({
+  baseUrl: 'http://' + DEFAULT_HOSTNAME + ':' + DEFAULT_PORT + TODO_PATH
+});
 
 /**
  * Create a TODO item.
@@ -33,7 +20,7 @@ function sendRequest(method, path, fun) {
 function create(text) {
 
   console.log('create todo: ' + text);
-  sendRequest('POST', '/todo/' + text);
+  request.post('/' + text);
 }
 
 /**
@@ -45,7 +32,7 @@ function create(text) {
 function update(id, updates) {
 
   console.log('update todo: ' + id);
-  sendRequest('PUT', '/todo/' + id + '/' + JSON.stringify(updates));
+  request.put('/' + id + '/' + JSON.stringify(updates));
 }
 
 /**
@@ -58,7 +45,7 @@ function update(id, updates) {
 function updateAll(updates) {
 
   console.log('updateall');
-  sendRequest('PUT', '/todo/' + JSON.stringify(updates));
+  request.put('/' + JSON.stringify(updates));
 }
 
 /**
@@ -68,7 +55,7 @@ function updateAll(updates) {
 function destroy(id) {
 
   console.log('delete todo :' + id);
-  sendRequest('DEL', '/todo/' + id);
+  request.del('/' + id);
 }
 
 /**
@@ -77,7 +64,7 @@ function destroy(id) {
 function destroyCompleted() {
 
   console.log('destory completed');
-  sendRequest('DEL', '/todo/allCompleted');
+  request.del('/allCompleted');
 }
 
 var DatabaseTodoStore = assign({}, EventEmitter.prototype, {
@@ -88,20 +75,18 @@ var DatabaseTodoStore = assign({}, EventEmitter.prototype, {
    */
   areAllComplete: function () {
 
-    sendRequest('GET', '/todo/areAllComplete', function (res) {
-      console.log('STATUS: ' + res.statusCode);
-      console.log('HEADERS: ' + JSON.stringify(res.headers));
-      res.setEncoding('utf8');
-      var data = '';
-      res.on('data', function (chunk) {
+    var data = '';
+    request
+      .get('/areAllComplete')
+      .on('data', function (chunk) {
         data += chunk;
-      });
-      res.on('end', function () {
-        var responseObj =  JSON.parse(data);
+      })
+      .on('end', function () {
+        var responseObj = JSON.parse(data);
         return responseObj && responseObj.areAllComplete;
+      }).on('error', function () {
+        return false;
       });
-    });
-    return false;
   },
 
   /**
@@ -110,23 +95,20 @@ var DatabaseTodoStore = assign({}, EventEmitter.prototype, {
    */
   getAll: function () {
 
-    var req = sendRequest('GET', '/todo/all', function (res) {
-      console.log('STATUS: ' + res.statusCode);
-      console.log('HEADERS: ' + JSON.stringify(res.headers));
-      res.setEncoding('utf8');
-      var data = '';
-      res.on('data', function (chunk) {
-        data += chunk;
-      });
-      res.on('end', function () {
-        todos = JSON.parse(data);
-        return todos;
-      });
-    });
+    var data = '';
 
-    req.on('error', function () {
-      return [];
-    })
+    request
+      .get('/all')
+      .on('data', function (chunk) {
+        data += chunk;
+      })
+      .on('end', function () {
+        var todos = JSON.parse(data);
+        return todos;
+      })
+      .on('error', function () {
+        return [];
+      });
   },
 
   emitChange: function () {
