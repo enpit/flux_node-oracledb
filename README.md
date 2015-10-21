@@ -8,8 +8,7 @@ The aim of this repository is to provide a working example of a [React](https://
 * Calls a webservice that is implemented in [another project](https://github.com/enpit/flux_node-oracledb.webservice)
  * The webservice communicates with an oracle database using [node-oracledb](https://github.com/oracle/node-oracledb)
  * If you don't have an Oracle XE database installed, just use a [docker container](https://registry.hub.docker.com/u/alexeiled/docker-oracle-xe-11g/)
-* This project was built upon the [react-webpack-starter](https://github.com/krasimir/react-webpack-starter)
- * Read more about his launcher in his [blogpost](http://krasimirtsonev.com/blog/article/a-modern-react-starter-pack-based-on-webpack)
+* This project was built upon the [base-react-min](https://github.com/codewinds/base-react-min)
 
 ## Usage
 
