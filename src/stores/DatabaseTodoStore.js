@@ -2,24 +2,38 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constants/TodoConstants');
 var assign = require('object-assign');
+var http = require('http');
 
 var CHANGE_EVENT = 'change';
 
-var _todos = {};
+var requestOptions = {
+  hostname: 'localhost',
+  port: 7002,
+  method: 'GET', // will be overwritten for every request
+  path: '/todo/?' // will be overwritten for every request
+};
+
+/**
+ * Convenience method for sending a http request
+ * @param {string} method the http method that should be used for this request
+ * @param {string} path the path that should be appended to the url
+ * @param {function} fun the function to pass as a callback to the http.request call
+ */
+function sendRequest(method, path, fun) {
+
+  requestOptions.method = method;
+  requestOptions.path = path;
+  http.request(requestOptions, fun).end();
+}
 
 /**
  * Create a TODO item.
  * @param  {string} text The content of the TODO
  */
-function create (text) {
+function create(text) {
 
   console.log('create todo: ' + text);
-  // var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
-  // _todos[id] = {
-  // 	id: id,
-  // 	complete: false,
-  // 	text: text
-  // };
+  sendRequest('POST', '/todo/' + text);
 }
 
 /**
@@ -28,10 +42,10 @@ function create (text) {
  * @param {object} updates An object literal containing only the data to be
  *     updated.
  */
-function update (id, updates) {
+function update(id, updates) {
 
   console.log('update todo: ' + id);
-  // _todos[id] = assign({}, _todos[id], updates);
+  sendRequest('PUT', '/todo/' + id + '/' + JSON.stringify(updates));
 }
 
 /**
@@ -41,35 +55,29 @@ function update (id, updates) {
  *     updated.
 
  */
-function updateAll (updates) {
+function updateAll(updates) {
 
   console.log('updateall');
-  for (var id in _todos) {
-    // update(id, updates);
-  }
+  sendRequest('PUT', '/todo/' + JSON.stringify(updates));
 }
 
 /**
  * Delete a TODO item.
  * @param  {string} id
  */
-function destroy (id) {
+function destroy(id) {
 
   console.log('delete todo :' + id);
-  delete _todos[id];
+  sendRequest('DEL', '/todo/' + id);
 }
 
 /**
  * Delete all the completed TODO items.
  */
-function destroyCompleted () {
+function destroyCompleted() {
 
   console.log('destory completed');
-  // for (var id in _todos) {
-  // 	if (_todos[id].complete) {
-  // 		destroy(id);
-  // 	}
-  // }
+  sendRequest('DEL', '/todo/allCompleted');
 }
 
 var DatabaseTodoStore = assign({}, EventEmitter.prototype, {
@@ -79,12 +87,21 @@ var DatabaseTodoStore = assign({}, EventEmitter.prototype, {
    * @return {boolean}
    */
   areAllComplete: function () {
-    for (var id in _todos) {
-      if (!_todos[id].complete) {
-        return false;
-      }
-    }
-    return true;
+
+    sendRequest('GET', '/todo/areAllComplete', function (res) {
+      console.log('STATUS: ' + res.statusCode);
+      console.log('HEADERS: ' + JSON.stringify(res.headers));
+      res.setEncoding('utf8');
+      var data = '';
+      res.on('data', function (chunk) {
+        data += chunk;
+      });
+      res.on('end', function () {
+        var responseObj =  JSON.parse(data);
+        return responseObj && responseObj.areAllComplete;
+      });
+    });
+    return false;
   },
 
   /**
@@ -92,7 +109,24 @@ var DatabaseTodoStore = assign({}, EventEmitter.prototype, {
    * @return {object}
    */
   getAll: function () {
-    return _todos;
+
+    var req = sendRequest('GET', '/todo/all', function (res) {
+      console.log('STATUS: ' + res.statusCode);
+      console.log('HEADERS: ' + JSON.stringify(res.headers));
+      res.setEncoding('utf8');
+      var data = '';
+      res.on('data', function (chunk) {
+        data += chunk;
+      });
+      res.on('end', function () {
+        todos = JSON.parse(data);
+        return todos;
+      });
+    });
+
+    req.on('error', function () {
+      return [];
+    })
   },
 
   emitChange: function () {
