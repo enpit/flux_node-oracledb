@@ -20,7 +20,7 @@ var todoRequest = request.defaults({
 function create(text) {
 
   console.log('create todo: ' + text);
-  request.post('/' + text);
+  todoRequest.post('/' + text);
 }
 
 /**
@@ -32,7 +32,7 @@ function create(text) {
 function update(id, updates) {
 
   console.log('update todo: ' + id);
-  request.put('/' + id + '/' + JSON.stringify(updates));
+  todoRequest.put('/' + id + '/' + JSON.stringify(updates));
 }
 
 /**
@@ -45,7 +45,7 @@ function update(id, updates) {
 function updateAll(updates) {
 
   console.log('updateall');
-  request.put('/' + JSON.stringify(updates));
+  todoRequest.put('/' + JSON.stringify(updates));
 }
 
 /**
@@ -55,7 +55,7 @@ function updateAll(updates) {
 function destroy(id) {
 
   console.log('delete todo :' + id);
-  request.del('/' + id);
+  todoRequest.del('/' + id);
 }
 
 /**
@@ -64,7 +64,7 @@ function destroy(id) {
 function destroyCompleted() {
 
   console.log('destory completed');
-  request.del('/allCompleted');
+  todoRequest.del('/allCompleted');
 }
 
 var DatabaseTodoStore = assign({}, EventEmitter.prototype, {
@@ -76,7 +76,7 @@ var DatabaseTodoStore = assign({}, EventEmitter.prototype, {
   areAllComplete: function () {
 
     var data = '';
-    request
+    todoRequest
       .get('/areAllComplete')
       .on('data', function (chunk) {
         data += chunk;
@@ -97,7 +97,7 @@ var DatabaseTodoStore = assign({}, EventEmitter.prototype, {
 
     var data = '';
 
-    request
+    todoRequest
       .get('/all')
       .on('data', function (chunk) {
         data += chunk;
