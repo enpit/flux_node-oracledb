@@ -19,7 +19,6 @@ var todoRequest = request.defaults({
  */
 function create(text) {
 
-  console.log('create todo: ' + text);
   todoRequest.post('/' + text);
 }
 
@@ -31,7 +30,6 @@ function create(text) {
  */
 function update(id, updates) {
 
-  console.log('update todo: ' + id);
   todoRequest.put('/' + id + '/' + JSON.stringify(updates));
 }
 
@@ -44,7 +42,6 @@ function update(id, updates) {
  */
 function updateAll(updates) {
 
-  console.log('updateall');
   todoRequest.put('/' + JSON.stringify(updates));
 }
 
@@ -54,7 +51,6 @@ function updateAll(updates) {
  */
 function destroy(id) {
 
-  console.log('delete todo :' + id);
   todoRequest.del('/' + id);
 }
 
@@ -63,7 +59,6 @@ function destroy(id) {
  */
 function destroyCompleted() {
 
-  console.log('destory completed');
   todoRequest.del('/allCompleted');
 }
 
