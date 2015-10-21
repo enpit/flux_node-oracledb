@@ -1,9 +1,8 @@
 {
   "name": "flux_node-oracledb",
   "version": "0.1.0",
-  "description": "Flux's TodoMVC example augmented by database calls via node-oracledb, generated using krasiminr/react-webpack-starter",
+  "description": "Flux's TodoMVC example augmented by database calls to a webservice that uses node-oracledb, generated using krasiminr/react-webpack-starter",
   "main": "lib/index.js",
-  "dependencies": {},
   "author": {
     "name": "Janis Krasemann",
     "email": "janis.krasemann@enpit.de",
@@ -32,6 +31,7 @@
     "babel-loader": "5.3.2",
     "chai": "3.3.0",
     "core-js": "1.1.4",
+    "css-loader": "^0.19.0",
     "eslint": "1.4.3",
     "eslint-loader": "1.0.0",
     "eslint-plugin-react": "3.4.1",
@@ -51,6 +51,7 @@
     "keymirror": "^0.1.1",
     "object-assign": "^4.0.1",
     "react": "0.13.3",
+    "style-loader": "^0.12.4",
     "watch": "0.16.0",
     "webpack": "1.12.2",
     "webpack-dev-server": "1.11.0"
