@@ -12,4 +12,4 @@ The aim of this repository is to provide a working example of a [React](https://
 
 ## Usage
 
-This is still a WIP, but you can download, npm install and then npm run to use a local version of the todomvc app (no database functionality yet)
+This is still a WIP, but you can download, npm install and then npm build to use a local version of the todomvc app (no database functionality yet). Launch the index.html in /public in any webbrowser to start the app.
